@@ -1,0 +1,15 @@
+{
+  "name": "Dynamic GUM errors",
+  "description": "change getUserMedia and enumerateDevices results on the fly",
+  "author": "Philipp Hancke",
+  "version": "1.0.0",
+  "manifest_version": 2,
+  "minimum_chrome_version": "34",
+  "icons": {
+  },
+  "content_scripts": [ {
+    "js": [ "content.js" ],
+    "run_at": "document_start",
+    "matches": [ "https://*/*" ]
+  }]
+}
