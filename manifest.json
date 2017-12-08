@@ -5,6 +5,11 @@
   "version": "1.0.0",
   "manifest_version": 2,
   "minimum_chrome_version": "34",
+  "applications": {
+    "gecko": {
+      "id": "webrtc@rocks"
+    }
+  },
   "icons": {
   },
   "content_scripts": [ {
