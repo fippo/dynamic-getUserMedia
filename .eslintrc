@@ -1,0 +1,17 @@
+{
+  "rules": {
+    "no-console": 0,
+    "quotes": [
+        2,
+        "single"
+    ],
+    "semi": [
+        2,
+        "always"
+    ]
+  },
+  "env": {
+      "browser": true,
+      "es6": true
+  }
+}

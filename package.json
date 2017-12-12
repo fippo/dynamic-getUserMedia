@@ -7,5 +7,11 @@
     "url": "git+https://github.com/fippo/dynamic-getUserMedia.git"
   },
   "author": "Philipp Hancke <fippo@appear.in>",
-  "license": "MIT"
+  "license": "MIT",
+  "devDependencies": {
+    "eslint": "^4.13.1"
+  },
+  "scripts": {
+    "test": "eslint ."
+  }
 }

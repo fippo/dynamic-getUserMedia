@@ -15,12 +15,12 @@ var inject = '('+function() {
         // for consistency with the device modifications reject with a NotFoundError.
         if (constraints.audio && sessionStorage.__filterAudioDevices) {
             err = new Error('getUserMedia error');
-            err.name = "NotFoundError";
+            err.name = 'NotFoundError';
             return Promise.reject(err);
         }
         if (constraints.video && sessionStorage.__filterVideoDevices) {
             err = new Error('getUserMedia error');
-            err.name = "NotFoundError";
+            err.name = 'NotFoundError';
             return Promise.reject(err);
         }
 
@@ -53,15 +53,15 @@ var inject = '('+function() {
                     devices = devices.filter((device) => device.kind !== 'audioinput');
                 }
                 if (sessionStorage.__filterDeviceLabels
-                    || sessionStorage.__getUserMediaAudioError === "NotAllowedError"
-                    || sessionStorage.__getUserMediaVideoError === "NotAllowedError") {
+                    || sessionStorage.__getUserMediaAudioError === 'NotAllowedError'
+                    || sessionStorage.__getUserMediaVideoError === 'NotAllowedError') {
                     devices = devices.map((device) => {
                         var deviceWithoutLabel = {
                             deviceId: device.deviceId,
                             kind: device.kind,
                             label: '',
                             groupId: device.groupId,
-                        }
+                        };
                         return deviceWithoutLabel;
                     });
                 }
