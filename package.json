@@ -1,0 +1,11 @@
+{
+  "name": "dynamic-getusermedia",
+  "version": "1.0.0",
+  "description": "change getUserMedia and enumerateDevices results on the fly",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fippo/dynamic-getUserMedia.git"
+  },
+  "author": "Philipp Hancke <fippo@appear.in>",
+  "license": "MIT"
+}
