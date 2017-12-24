@@ -18,7 +18,9 @@ var inject = '('+function() {
             err.name = 'NotFoundError';
             return Promise.reject(err);
         }
-        if (constraints.video && sessionStorage.__filterVideoDevices) {
+
+        var isScreenSharing = constraints.video && (constraints.video.mediaSource || constraints.video.mandatory && constraints.video.mandatory.chromeMediaSource);
+        if (constraints.video && sessionStorage.__filterVideoDevices && !isScreenSharing) {
             err = new Error('getUserMedia error');
             err.name = 'NotFoundError';
             return Promise.reject(err);
