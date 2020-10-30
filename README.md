@@ -26,8 +26,12 @@ or the device label respectively. These flags also interact with getUserMedia an
 a device kind that is filtered is requested.
 
 ## Loading the extension
+To use this extension in Chrome, first clone or download this repository. Then [enable _Developer mode_](https://developer.chrome.com/extensions/faq#faq-dev-01) in `chrome://extensions`. While in `chrome://extensions`, click the "Load unpacked" button and select your local extension folder to install it.
+
+> ⚠️ After developing remember to disable the extension to avoid getting affected by it.
+
 For testing with selenium, the extension can be automatically be loaded with the
-```--load-extension=``` command line flag in Chrome. Note that this flag takes a comma₋separated list of paths.
+`--load-extension=` command line flag in Chrome. Note that this flag takes a comma₋separated list of paths.
 
 ## Known issues
 Due to timing, loading and parsing the injected script may not intercept very early calls to getUserMedia or enumerateDevices.
