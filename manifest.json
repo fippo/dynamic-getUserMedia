@@ -10,6 +10,6 @@
   "content_scripts": [ {
     "js": [ "content.js" ],
     "run_at": "document_start",
-    "matches": [ "https://*/*", "http://localhost:9876/*" ]
+    "matches": [ "https://*/*", "http://localhost:*/*" ]
   }]
 }
