@@ -60,7 +60,7 @@ var inject = '('+function() {
 
     // override enumerateDevices to filter certain device kinds or return empty labels
     // (which means no permission has been granted). Also returns empty labels
-    // when getUserMedia permission is denied via a session storage flag.
+    // and device ids when getUserMedia permission is denied via a session storage flag.
     var origEnumerateDevices = navigator.mediaDevices.enumerateDevices.bind(navigator.mediaDevices);
     navigator.mediaDevices.enumerateDevices = function() {
         return origEnumerateDevices()
@@ -75,12 +75,18 @@ var inject = '('+function() {
                     || sessionStorage.__getUserMediaAudioError === 'NotAllowedError'
                     || sessionStorage.__getUserMediaVideoError === 'NotAllowedError') {
                     devices = devices.map((device) => {
-                        var deviceWithoutLabel = {
-                            deviceId: device.deviceId,
+                        const deviceWithoutLabel = {
+                            deviceId: '',
                             kind: device.kind,
                             label: '',
                             groupId: device.groupId,
                         };
+
+                        // Firefox does not empty deviceId
+                        if (navigator.mozGetUserMedia) {
+                            deviceWithoutLabel.deviceId = device.deviceId;
+                        }
+
                         return deviceWithoutLabel;
                     });
                 }

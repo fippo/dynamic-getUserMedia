@@ -32,4 +32,19 @@ describe('enumerateDevices inject', () => {
                 done();
             });
     });
+
+    it('filters device ids when permission is denied (Chrome only)', (done) => {
+        sessionStorage.__getUserMediaAudioError = 'NotAllowedError';
+        navigator.mediaDevices.enumerateDevices()
+            .then((devices) => {
+                const nonEmptyDeviceIds = devices.filter(d => d.deviceId !== '');
+                if (navigator.mozGetUserMedia) {
+                  expect(nonEmptyDeviceIds).not.to.have.length(0);
+                } else {
+                  expect(nonEmptyDeviceIds).to.have.length(0);
+                }
+                done();
+            });
+    });
 });
+
