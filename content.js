@@ -99,10 +99,8 @@ var inject = '('+function() {
     };
 }+')();';
 
-document.addEventListener('DOMContentLoaded', function() {
-    var script = document.createElement('script');
-    script.textContent = inject;
-    var parent = document.head || document.documentElement;
-    parent.insertBefore(script, parent.firstChild);
-    script.parentNode.removeChild(script);
-});
+var script = document.createElement('script');
+script.textContent = inject;
+var parent = document.head || document.documentElement;
+parent.insertBefore(script, parent.firstChild);
+script.parentNode.removeChild(script);
