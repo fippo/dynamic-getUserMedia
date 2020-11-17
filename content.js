@@ -71,25 +71,34 @@ var inject = '('+function() {
                 if (sessionStorage.__filterAudioDevices) {
                     devices = devices.filter((device) => device.kind !== 'audioinput');
                 }
-                if (sessionStorage.__filterDeviceLabels
-                    || sessionStorage.__getUserMediaAudioError === 'NotAllowedError'
-                    || sessionStorage.__getUserMediaVideoError === 'NotAllowedError') {
-                    devices = devices.map((device) => {
-                        const deviceWithoutLabel = {
-                            deviceId: '',
-                            kind: device.kind,
-                            label: '',
-                            groupId: device.groupId,
-                        };
 
-                        // Firefox does not empty deviceId
-                        if (navigator.mozGetUserMedia) {
-                            deviceWithoutLabel.deviceId = device.deviceId;
-                        }
+                devices = devices.map((device) => {
+                    const deviceWithoutLabelAndDeviceId = {
+                        deviceId: '',
+                        kind: device.kind,
+                        label: '',
+                        groupId: device.groupId,
+                    };
 
-                        return deviceWithoutLabel;
-                    });
-                }
+                    // Firefox does not like empty deviceId
+                    if (navigator.mozGetUserMedia) {
+                        deviceWithoutLabelAndDeviceId.deviceId = device.deviceId;
+                    }
+
+                    if (device.kind === 'audioinput' && sessionStorage.__getUserMediaAudioError === 'NotAllowedError') {
+                        return deviceWithoutLabelAndDeviceId;
+                    }
+
+                    if (device.kind === 'videoinput' && sessionStorage.__getUserMediaVideoError === 'NotAllowedError') {
+                        return deviceWithoutLabelAndDeviceId;
+                    }
+
+                    if (sessionStorage.__filterDeviceLabels) {
+                        return deviceWithoutLabelAndDeviceId;
+                    }
+
+                    return device;
+                });
                 if (sessionStorage.__fakeVideoDevices) {
                     JSON.parse(sessionStorage.__fakeVideoDevices).forEach(function(fakeDeviceSpec) {
                         devices.push({
