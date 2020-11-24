@@ -60,7 +60,7 @@ var inject = '('+function() {
 
     // override enumerateDevices to filter certain device kinds or return empty labels
     // (which means no permission has been granted). Also returns empty labels
-    // when getUserMedia permission is denied via a session storage flag.
+    // and device ids when getUserMedia permission is denied via a session storage flag.
     var origEnumerateDevices = navigator.mediaDevices.enumerateDevices.bind(navigator.mediaDevices);
     navigator.mediaDevices.enumerateDevices = function() {
         return origEnumerateDevices()
@@ -71,19 +71,34 @@ var inject = '('+function() {
                 if (sessionStorage.__filterAudioDevices) {
                     devices = devices.filter((device) => device.kind !== 'audioinput');
                 }
-                if (sessionStorage.__filterDeviceLabels
-                    || sessionStorage.__getUserMediaAudioError === 'NotAllowedError'
-                    || sessionStorage.__getUserMediaVideoError === 'NotAllowedError') {
-                    devices = devices.map((device) => {
-                        var deviceWithoutLabel = {
-                            deviceId: device.deviceId,
-                            kind: device.kind,
-                            label: '',
-                            groupId: device.groupId,
-                        };
-                        return deviceWithoutLabel;
-                    });
-                }
+
+                devices = devices.map((device) => {
+                    const deviceWithoutLabelAndDeviceId = {
+                        deviceId: '',
+                        kind: device.kind,
+                        label: '',
+                        groupId: device.groupId,
+                    };
+
+                    // Firefox does not like empty deviceId
+                    if (navigator.mozGetUserMedia) {
+                        deviceWithoutLabelAndDeviceId.deviceId = device.deviceId;
+                    }
+
+                    if (device.kind === 'audioinput' && sessionStorage.__getUserMediaAudioError === 'NotAllowedError') {
+                        return deviceWithoutLabelAndDeviceId;
+                    }
+
+                    if (device.kind === 'videoinput' && sessionStorage.__getUserMediaVideoError === 'NotAllowedError') {
+                        return deviceWithoutLabelAndDeviceId;
+                    }
+
+                    if (sessionStorage.__filterDeviceLabels) {
+                        return deviceWithoutLabelAndDeviceId;
+                    }
+
+                    return device;
+                });
                 if (sessionStorage.__fakeVideoDevices) {
                     JSON.parse(sessionStorage.__fakeVideoDevices).forEach(function(fakeDeviceSpec) {
                         devices.push({

@@ -5,16 +5,11 @@
   "version": "1.0.0",
   "manifest_version": 2,
   "minimum_chrome_version": "34",
-  "applications": {
-    "gecko": {
-      "id": "webrtc@rocks"
-    }
-  },
   "icons": {
   },
   "content_scripts": [ {
     "js": [ "content.js" ],
     "run_at": "document_start",
-    "matches": [ "https://*/*", "http://localhost:9876/*" ]
+    "matches": [ "https://*/*", "http://localhost:*/*" ]
   }]
 }
