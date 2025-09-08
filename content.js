@@ -76,11 +76,6 @@ navigator.mediaDevices.enumerateDevices = async () => {
             groupId: device.groupId,
         };
 
-        // Firefox does not like empty deviceId
-        if (navigator.mozGetUserMedia) {
-            deviceWithoutLabelAndDeviceId.deviceId = device.deviceId;
-        }
-
         if (device.kind === 'audioinput' && sessionStorage.__getUserMediaAudioError === 'NotAllowedError') {
             return deviceWithoutLabelAndDeviceId;
         }

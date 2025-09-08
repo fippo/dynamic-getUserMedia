@@ -43,16 +43,12 @@ describe('enumerateDevices inject', () => {
             });
     });
 
-    it('filters audio device ids when permission is denied (Chrome only)', (done) => {
+    it('filters audio device ids when permission is denied', (done) => {
         sessionStorage.__getUserMediaAudioError = 'NotAllowedError';
         navigator.mediaDevices.enumerateDevices()
             .then((devices) => {
                 const audioDevicesWithDeviceIds = devices.filter(d => d.kind === 'audioinput' && d.deviceId !== '');
-                if (navigator.mozGetUserMedia) {
-                  expect(audioDevicesWithDeviceIds).not.to.have.length(0);
-                } else {
-                  expect(audioDevicesWithDeviceIds).to.have.length(0);
-                }
+                expect(audioDevicesWithDeviceIds).to.have.length(0);
                 done();
             });
     });
@@ -67,16 +63,12 @@ describe('enumerateDevices inject', () => {
             });
     });
 
-    it('filters video device ids when permission is denied (Chrome only)', (done) => {
+    it('filters video device ids when permission is denied', (done) => {
         sessionStorage.__getUserMediaVideoError = 'NotAllowedError';
         navigator.mediaDevices.enumerateDevices()
             .then((devices) => {
                 const videoDevicesWithDeviceIds = devices.filter(d => d.kind === 'videoinput' && d.deviceId !== '');
-                if (navigator.mozGetUserMedia) {
-                  expect(videoDevicesWithDeviceIds).not.to.have.length(0);
-                } else {
-                  expect(videoDevicesWithDeviceIds).to.have.length(0);
-                }
+                expect(videoDevicesWithDeviceIds).to.have.length(0);
                 done();
             });
     });
